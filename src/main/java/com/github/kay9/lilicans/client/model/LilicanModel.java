@@ -24,10 +24,14 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LilicanModel extends EntityModel<Lilican>
 {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Lilicans.id(Lilicans.LILICAN.getId().getPath()), "main");
 
+    private final Map<ModelPart, PartPose> defaultPositions = new HashMap<>();
     private final ModelPart body;
     private final ModelPart head;
     private final ModelPart pad;
@@ -40,13 +44,20 @@ public class LilicanModel extends EntityModel<Lilican>
     {
         super(RenderType::entityCutoutNoCull);
 
-        body = parent.getChild("body");
-        head = body.getChild("head");
-        pad = head.getChild("pad");
-        leftArm = body.getChild("left_arm");
-        rightArm = body.getChild("right_arm");
-        leftLeg = body.getChild("left_leg");
-        rightLeg = body.getChild("right_leg");
+        body = getChild(parent, "body");
+        head = getChild(body, "head");
+        pad = getChild(head, "pad");
+        leftArm = getChild(body, "left_arm");
+        rightArm = getChild(body, "right_arm");
+        leftLeg = getChild(body, "left_leg");
+        rightLeg = getChild(body, "right_leg");
+    }
+
+    public ModelPart getChild(ModelPart parent, String child)
+    {
+        ModelPart part = parent.getChild(child);
+        defaultPositions.put(part, part.storePose());
+        return part;
     }
 
     public static LayerDefinition createBodyLayer()
@@ -67,8 +78,18 @@ public class LilicanModel extends EntityModel<Lilican>
     @Override
     public void setupAnim(Lilican pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch)
     {
+        defaultPositions.forEach(ModelPart::loadPose);
+
         head.xRot = pHeadPitch * ((float) Math.PI / 180f);
         head.yRot = pNetHeadYaw * ((float) Math.PI / 180f);
+
+        if (pEntity.isInSittingPose())
+        {
+            body.y += 1.5f;
+            leftLeg.z = rightLeg.z = -1f;
+            leftLeg.xRot = rightLeg.xRot = -1.5f;
+            leftLeg.yRot = -(rightLeg.yRot = -0.5f);
+        }
     }
 
     @Override
@@ -98,9 +119,9 @@ public class LilicanModel extends EntityModel<Lilican>
                     int overlay = LivingEntityRenderer.getOverlayCoords(lilican, 0.0F);
                     BakedModel bakedmodel = renderer.getBlockModel(daisy);
                     ps.pushPose();
-                    ps.translate(0, 1.325, 0);
+                    getParentModel().body.translateAndRotate(ps);
                     getParentModel().head.translateAndRotate(ps);
-                    ps.translate(0, -0.25, 0);
+                    ps.translate(0, -0.24, 0);
                     ps.scale(-1.0F, -1.0F, 1.0F);
                     ps.scale(0.6f, 0.6f, 0.6f);
                     ps.translate(-0.5f, -0.5f, -0.5f);
