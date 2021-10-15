@@ -9,11 +9,12 @@ import net.minecraft.resources.ResourceLocation;
 
 public class LilicanRenderer extends MobRenderer<Lilican, LilicanModel>
 {
-    public static final ResourceLocation TEXTURE = Lilicans.id("assets/lilicans/lilican/lilican.png");
+    public static final ResourceLocation TEXTURE = Lilicans.id("textures/entity/lilican.png");
 
     public LilicanRenderer(EntityRendererProvider.Context context)
     {
-        super(context, new LilicanModel(), 0.4f);
+        super(context, new LilicanModel(context.bakeLayer(LilicanModel.LAYER_LOCATION)), 0.45f);
+        addLayer(new LilicanModel.FlowerLayer(this));
     }
 
     @Override
