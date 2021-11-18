@@ -58,7 +58,7 @@ public class Lilicans
             registry.getRegistry().register(i.setRegistryName(s));
         };
 
-        reg.accept("lilican_spawn_egg", new ForgeSpawnEggItem(LILICAN, 0x3f8f38, 0x132b10, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+        reg.accept("lilican_spawn_egg", new ForgeSpawnEggItem(LILICAN, 0x62AA27, 0x1F441F, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
     }
 
     private static void registerEntityAttributes(EntityAttributeCreationEvent event)

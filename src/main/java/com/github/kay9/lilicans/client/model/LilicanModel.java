@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -89,6 +90,19 @@ public class LilicanModel extends EntityModel<Lilican>
             leftLeg.z = rightLeg.z = -1f;
             leftLeg.xRot = rightLeg.xRot = -1.5f;
             leftLeg.yRot = -(rightLeg.yRot = -0.5f);
+        }
+        else if (pEntity.isPadding())
+        {
+            body.yRot += pAgeInTicks * 0.002f;
+        }
+        else
+        {
+            body.y += Mth.cos(pLimbSwing * 2) * 0.2f * pLimbSwingAmount;
+            leftLeg.xRot += Mth.cos(pLimbSwing) * 1.7f * pLimbSwingAmount;
+            rightLeg.xRot += -leftLeg.xRot;
+            leftArm.xRot += Mth.cos(pLimbSwing) * 1.35f * pLimbSwingAmount;
+            rightArm.xRot += -leftArm.xRot;
+            pad.zRot += Mth.cos(pLimbSwing) * 0.085f * pLimbSwingAmount;
         }
     }
 
