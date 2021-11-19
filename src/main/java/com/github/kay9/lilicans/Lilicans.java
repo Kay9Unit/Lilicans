@@ -41,6 +41,8 @@ public class Lilicans
             bus.addListener(Lilicans::registerRenderers);
             bus.addListener(Lilicans::registerModelDefinitions);
         }
+
+        Sounds.REGISTRY.register(bus);
     }
 
     private static void registerEntities(RegistryEvent.Register<EntityType<?>> registry)

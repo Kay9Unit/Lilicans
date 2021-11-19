@@ -1,0 +1,16 @@
+{
+  "entity.lilican.ambient": {
+    "sounds": [
+      "lilicans:entity/lilican/ambient1",
+      "lilicans:entity/lilican/ambient2"
+    ],
+    "subtitle": "subtitles.entity.lilican.ambient"
+  },
+  "entity.lilican.hurt": {
+    "sounds": [
+      "lilicans:entity/lilican/hurt1",
+      "lilicans:entity/lilican/hurt2"
+    ],
+    "subtitle": "subtitles.entity.lilican.hurt"
+  }
+}

@@ -102,7 +102,7 @@ public class LilicanModel extends EntityModel<Lilican>
             rightLeg.xRot += -leftLeg.xRot;
             leftArm.xRot += Mth.cos(pLimbSwing) * 1.35f * pLimbSwingAmount;
             rightArm.xRot += -leftArm.xRot;
-            pad.zRot += Mth.cos(pLimbSwing) * 0.085f * pLimbSwingAmount;
+            head.zRot += Mth.cos(pLimbSwing) * 0.085f * pLimbSwingAmount;
         }
     }
 
