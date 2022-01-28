@@ -13,6 +13,7 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -39,11 +40,12 @@ public class Lilicans
         bus.addGenericListener(Item.class, Lilicans::registerItems);
         bus.addListener(Lilicans::registerEntityAttributes);
 
+        MinecraftForge.EVENT_BUS.addListener(Lilicans::registerSpawning);
+
         if (FMLEnvironment.dist == Dist.CLIENT)
         {
             bus.addListener(Lilicans::registerRenderers);
             bus.addListener(Lilicans::registerModelDefinitions);
-            bus.addListener(Lilicans::registerSpawning);
         }
 
         Sounds.REGISTRY.register(bus);
