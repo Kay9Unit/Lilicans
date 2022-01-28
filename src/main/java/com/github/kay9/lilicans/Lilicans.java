@@ -8,11 +8,14 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -40,6 +43,7 @@ public class Lilicans
         {
             bus.addListener(Lilicans::registerRenderers);
             bus.addListener(Lilicans::registerModelDefinitions);
+            bus.addListener(Lilicans::registerSpawning);
         }
 
         Sounds.REGISTRY.register(bus);
@@ -71,6 +75,14 @@ public class Lilicans
     private static void registerRenderers(EntityRenderersEvent.RegisterRenderers event)
     {
         event.registerEntityRenderer(LILICAN.get(), LilicanRenderer::new);
+    }
+
+    private static void registerSpawning(BiomeLoadingEvent event)
+    {
+        if (event.getCategory() == Biome.BiomeCategory.SWAMP)
+        {
+            event.getSpawns().addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(LILICAN.get(), 10, 2, 4));
+        }
     }
 
     private static void registerModelDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
