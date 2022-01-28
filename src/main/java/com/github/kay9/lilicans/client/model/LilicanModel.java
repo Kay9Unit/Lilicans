@@ -81,8 +81,11 @@ public class LilicanModel extends EntityModel<Lilican>
     {
         defaultPositions.forEach(ModelPart::loadPose);
 
-        head.xRot = pHeadPitch * ((float) Math.PI / 180f);
-        head.yRot = pNetHeadYaw * ((float) Math.PI / 180f);
+        if (!pEntity.isPadding())
+        {
+            head.xRot = pHeadPitch * ((float) Math.PI / 180f);
+            head.yRot = pNetHeadYaw * ((float) Math.PI / 180f);
+        }
 
         if (pEntity.isInSittingPose())
         {
@@ -110,6 +113,27 @@ public class LilicanModel extends EntityModel<Lilican>
     public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha)
     {
         body.render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+    }
+
+    protected float rotlerpRad(float pAngle, float pMaxAngle, float pMul)
+    {
+        float f = (pMul - pMaxAngle) % ((float) Math.PI * 2F);
+        if (f < -(float) Math.PI)
+        {
+            f += ((float) Math.PI * 2F);
+        }
+
+        if (f >= (float) Math.PI)
+        {
+            f -= ((float) Math.PI * 2F);
+        }
+
+        return pMaxAngle + pAngle * f;
+    }
+
+    private float quadraticArmUpdate(float pLimbSwing)
+    {
+        return -65.0F * pLimbSwing + pLimbSwing * pLimbSwing;
     }
 
     public static class FlowerLayer extends RenderLayer<Lilican, LilicanModel>
